@@ -1,20 +1,30 @@
 import streamlit as st
-import streamlit_shadcn_ui as ui
+from form_components import create_basic_info_section, create_lab_values_section
+from data_validation import validate_form_input, collect_form_values
 
-st.title("🩺 Multi-Disease Risk Prediction")
-st.write(
-    "Help you understand your health risks from your health report, head over to [placeholder link](https://docs.streamlit.io/)."
-)
+def main():
+    """Main application function."""
+    st.title("🩺 Multi-Disease Risk Prediction")
+    
+    with st.form("risk_form"):
+        create_basic_info_section()
+        create_lab_values_section()
+        
+        submitted = st.form_submit_button(
+            "Submit", 
+            type="primary",
+            use_container_width=True
+        )
 
-# shadow ui component example
-with ui.card(key="card1"):
-    ui.element("span", children=["Your Height (cm)"], className="text-gray-400 text-sm font-medium m-1", key="label1")
-    ui.element("input", key="user_height", placeholder="e.g. 170")
+        if submitted:
+            missing_fields = validate_form_input(st)
+            
+            if missing_fields:
+                st.error(f"Please fill in all required fields: {', '.join(missing_fields)}")
+            else:
+                values = collect_form_values(st)
+                st.success("Successfully submitted!")
+                st.write(values)
 
-    ui.element("span", children=["Your Weight (kg)"], className="text-gray-400 text-sm font-medium m-1", key="label2")
-    ui.element("input", key="user_weight", placeholder="e.g. 70.5")
-
-    ui.element("span", children=["Your Age (years)"], className="text-gray-400 text-sm font-medium m-1", key="label3")
-    ui.element("input", key="user_age", placeholder="e.g. 25")
-
-    ui.element("button", text="Submit", key="button", className="m-1")
+if __name__ == "__main__":
+    main()
