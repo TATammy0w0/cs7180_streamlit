@@ -1,8 +1,26 @@
 import streamlit as st
 
+tf_map = {
+    1: "Yes",
+    2: "No"
+}
+
 def create_basic_info_section():
     """Create the Basic Information section of the form."""
     st.subheader("Basic Information")
+    
+    gender_map = {
+            1: "Male",
+            2: "Female"
+        }
+    st.pills(
+            "Gender at Birth",
+            options=gender_map.keys(),
+            format_func=lambda option: gender_map[option],
+            selection_mode="single",
+            key="user_gender"
+        )
+    
     col1, col2 = st.columns(2)
     
     with col1:
@@ -10,39 +28,29 @@ def create_basic_info_section():
                        value=None,
                        min_value=0, 
                        step=1, 
-                       key="user_age",
-                       help="Required: Enter your age in years")
+                       key="user_age")
 
+        st.number_input("Weight (kg)", 
+                       value=None,
+                       min_value=0.0, 
+                       step=0.1, 
+                       format="%.1f", 
+                       key="user_weight")
+
+    with col2:     
         st.number_input("Height (cm)", 
                        value=None,
                        min_value=0.0, 
                        step=0.1, 
                        format="%.1f", 
-                       key="user_height",
-                       help="Required: Enter your height in centimeters")
+                       key="user_height")
         
         st.number_input("Waist Circumference (cm)", 
                        value=None,
                        min_value=0.0, 
                        step=0.1, 
                        format="%.1f", 
-                       key="user_waist",
-                       help="Required: Enter your waist circumference in centimeters")
-
-    with col2:
-        st.selectbox("Gender at Birth",
-                    options=["", "Male", "Female"],
-                    index=0,
-                    key="user_gender",
-                    help="Required: Select your gender at birth")
-        
-        st.number_input("Weight (kg)", 
-                       value=None,
-                       min_value=0.0, 
-                       step=0.1, 
-                       format="%.1f", 
-                       key="user_weight",
-                       help="Required: Enter your weight in kilograms")
+                       key="user_waist")
 
 def create_lab_values_section():
     """Create the Laboratory Values section of the form."""
@@ -55,8 +63,7 @@ def create_lab_values_section():
                        min_value=0.0, 
                        step=1.0, 
                        format="%.1f", 
-                       key="user_systolic",
-                       help="Required: Enter your systolic blood pressure")
+                       key="user_systolic")
     
     with bp_col2:
         st.number_input("Diastolic Blood Pressure", 
@@ -64,13 +71,44 @@ def create_lab_values_section():
                        min_value=0.0, 
                        step=1.0, 
                        format="%.1f", 
-                       key="user_diastolic",
-                       help="Required: Enter your diastolic blood pressure")
+                       key="user_diastolic")
 
     st.number_input("HbA1c (%)", 
                    value=None,
                    min_value=0.0, 
                    step=0.1, 
                    format="%.1f", 
-                   key="user_hba1c",
-                   help="Optional: Enter your HbA1c value if available")
+                   key="user_hba1c")
+
+def create_lifestyle_factors_section():
+    """Create the Lifestyle Factors section of the form."""
+    st.subheader("Lifestyle Factors")
+
+
+    smoked_100 = st.pills(
+            "Have you ever smoked 100 cigarettes in life?",
+            options=tf_map.keys(),
+            format_func=lambda option: tf_map[option],
+            selection_mode="single",
+            key="smoked_100"
+        )
+    
+    # Show follow-up question only if user selected "Yes" (1)
+    if smoked_100 == 1:
+        st.selectbox(
+            "How often do you currently smoke?",
+            options=["", "Every day", "Some days", "Not at all"],
+            key="smoking_frequency"
+        )
+    else:
+        # Hide the follow-up question and reset the value when user selects "No"
+        st.session_state["smoking_frequency"] = ""
+
+    # Alcohol consumption section
+    alq121 = st.slider(
+        "How many days per year do you drink any type of alcoholic beverage? (past 12 months)",
+        min_value=0,
+        max_value=365,
+        value=0,
+        key="alq121"
+    )

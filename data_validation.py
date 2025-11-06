@@ -1,12 +1,25 @@
 # Constants for form field definitions
 REQUIRED_FIELDS = [
-    ("Age", "user_age", "years"),
-    ("Height", "user_height", "cm"),
-    ("Weight", "user_weight", "kg"),
-    ("Waist Circumference", "user_waist", "cm"),
-    ("Systolic BP", "user_systolic", "mmHg"),
-    ("Diastolic BP", "user_diastolic", "mmHg")
+    ("RIDAGEYR", "user_age"),
+    ("Height", "user_height"),
+    ("Weight", "user_weight"),
+    ("BMXWAIST", "user_waist"),
+    ("RIAGENDR", "user_gender"),
 ]
+
+OPTIONAL_FIELDS = [
+    ("Systolic Pressure", "user_systolic"),
+    ("Diastolic Pressure", "user_diastolic"),
+    ("LBXGH", "user_hba1c"),
+    ("ALQ121", "alq121"),
+]
+
+# Smoking frequency mapping
+SMOKING_FREQUENCY_MAP = {
+    "Every day": 1,
+    "Some days": 2,
+    "Not at all": 3,
+}
 
 def ok_float(val):
     """Validate if a value is a positive float."""
@@ -17,22 +30,17 @@ def ok_float(val):
 
 def validate_form_input(st):
     """Validate all required form inputs."""
-    # Build required fields dictionary
-    required_fields = {
-        name: st.session_state.get(key)
-        for name, key, _ in REQUIRED_FIELDS
-    }
-    required_fields["Gender"] = st.session_state.get("user_gender")
+    missing_fields = []
     
-    # Check required numeric fields
-    missing_fields = [
-        field for field, value in required_fields.items() 
-        if not ok_float(value) if field != "Gender"
-    ]
-    
-    # Check gender selection
-    if not st.session_state.get("user_gender"):
-        missing_fields.append("Gender")
+    for field_name, field_key in REQUIRED_FIELDS:
+        value = st.session_state.get(field_key)
+        # Check if numeric field is valid or if non-numeric field is not None
+        if field_name == "Gender":
+            if value is None:  # Pills returns None if not selected
+                missing_fields.append(field_name)
+        else:
+            if not ok_float(value):
+                missing_fields.append(field_name)
     
     return missing_fields
 
@@ -40,20 +48,37 @@ def collect_form_values(st):
     """Collect and format all form values."""
     values = {}
     
-    # Add required fields
-    for name, key, unit in REQUIRED_FIELDS:
-        values[f"{name} ({unit})"] = float(st.session_state.get(key))
+    # Add all required fields
+    for field_name, field_key in REQUIRED_FIELDS:
+        value = st.session_state.get(field_key)
+        # Convert to float for numeric fields, keep as-is for Gender (1 or 2)
+        if field_name == "Gender":
+            values[field_name] = value  # Will be 1 (Male) or 2 (Female)
+        else:
+            values[field_name] = float(value) if value is not None else None
     
-    # Add gender
-    values["Gender"] = st.session_state.get("user_gender")
+    # Add all optional fields (None if not provided)
+    for field_name, field_key in OPTIONAL_FIELDS:
+        value = st.session_state.get(field_key)
+        values[field_name] = float(value) if ok_float(value) else None
     
-    # Add blood pressure as combined value
-    sys_bp = values.pop("Systolic BP (mmHg)")
-    dia_bp = values.pop("Diastolic BP (mmHg)")
-    values["Blood Pressure"] = f"{sys_bp}/{dia_bp}"
+    # Add smoking-related fields (SMQ020 and SMQ040)
+    smoked_100 = st.session_state.get("smoked_100")  # Integer from pills (1=Yes, 2=No, None=not selected)
+    smoking_frequency = st.session_state.get("smoking_frequency", "")
     
-    # Add optional HbA1c
-    hba1c = st.session_state.get("user_hba1c")
-    values["HbA1c (%)"] = float(hba1c) if ok_float(hba1c) else "Not provided"
+    # SMQ020: Ever smoked 100 cigarettes
+    values["SMQ020"] = smoked_100  # 1=Yes, 2=No, None=not selected
+    
+    # SMQ040: Current smoking frequency
+    # Only set if user answered "Yes" (1) to smoking 100 cigarettes
+    if smoked_100 == 1:
+        # User smoked 100 cigarettes - map their current frequency
+        values["SMQ040"] = SMOKING_FREQUENCY_MAP.get(smoking_frequency)
+    elif smoked_100 == 2:
+        # User never smoked 100 cigarettes - default to 0
+        values["SMQ040"] = 0
+    else:
+        # User didn't answer the smoking history question
+        values["SMQ040"] = None
     
     return values
