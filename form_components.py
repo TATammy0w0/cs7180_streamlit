@@ -84,28 +84,25 @@ def create_lifestyle_factors_section():
     """Create the Lifestyle Factors section of the form."""
     st.subheader("Lifestyle Factors")
 
-
+    st.write("### Smoking History")
     smoked_100 = st.pills(
-            "Have you ever smoked 100 cigarettes in life?",
-            options=tf_map.keys(),
-            format_func=lambda option: tf_map[option],
-            selection_mode="single",
-            key="smoked_100"
-        )
+        "Have you ever smoked 100 cigarettes in life?",
+        options=tf_map.keys(),
+        format_func=lambda option: tf_map[option],
+        selection_mode="single",
+        key="smoked_100"
+    )
     
-    # Show follow-up question only if user selected "Yes" (1)
-    if smoked_100 == 1:
-        st.selectbox(
-            "How often do you currently smoke?",
-            options=["", "Every day", "Some days", "Not at all"],
-            key="smoking_frequency"
-        )
-    else:
-        # Hide the follow-up question and reset the value when user selects "No"
-        st.session_state["smoking_frequency"] = ""
+    # Always render the follow-up question (we'll validate on submit)
+    st.selectbox(
+        "How often do you currently smoke?",
+        options=["", "Every day", "Some days", "Not at all"],
+        key="smoking_frequency"
+    )
 
     # Alcohol consumption section
-    alq121 = st.slider(
+    st.write("### Alcohol Consumption")
+    st.slider(
         "How many days per year do you drink any type of alcoholic beverage? (past 12 months)",
         min_value=0,
         max_value=365,

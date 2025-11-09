@@ -5,13 +5,13 @@ REQUIRED_FIELDS = [
     ("Weight", "user_weight"),
     ("BMXWAIST", "user_waist"),
     ("RIAGENDR", "user_gender"),
+    ("ALQ121", "alq121"),
 ]
 
 OPTIONAL_FIELDS = [
     ("Systolic Pressure", "user_systolic"),
     ("Diastolic Pressure", "user_diastolic"),
     ("LBXGH", "user_hba1c"),
-    ("ALQ121", "alq121"),
 ]
 
 # Smoking frequency mapping
@@ -34,13 +34,9 @@ def validate_form_input(st):
     
     for field_name, field_key in REQUIRED_FIELDS:
         value = st.session_state.get(field_key)
-        # Check if numeric field is valid or if non-numeric field is not None
-        if field_name == "Gender":
-            if value is None:  # Pills returns None if not selected
-                missing_fields.append(field_name)
-        else:
-            if not ok_float(value):
-                missing_fields.append(field_name)
+        
+        if value is None or not ok_float(value): 
+            missing_fields.append(field_name)
     
     return missing_fields
 

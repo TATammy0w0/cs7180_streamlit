@@ -17,6 +17,12 @@ def three_diseases_input_form():
         if submitted:
             missing_fields = validate_form_input(st)
             
+            # Additional validation: if user smoked 100 cigarettes, they must answer frequency
+            smoked_100 = st.session_state.get("smoked_100")
+            smoking_frequency = st.session_state.get("smoking_frequency", "")
+            if smoked_100 == 1 and not smoking_frequency:
+                missing_fields.append("Smoking Frequency")
+            
             if missing_fields:
                 st.error(f"Please fill in all required fields: {', '.join(missing_fields)}")
             else:
