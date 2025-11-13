@@ -1,5 +1,5 @@
 import streamlit as st
-from constants import GENDER_MAP, TF_MAP, REQUIRED_FIELDS
+from constants import GENDER_MAP, OPTIONAL_FIELDS, TF_MAP, REQUIRED_FIELDS, SMOKING_FREQUENCY_MAP
 
 def create_basic_info_section():
     """Create the Basic Information section of the form."""
@@ -48,6 +48,14 @@ def create_lifestyle_factors_section():
     """Create the Lifestyle Factors section of the form."""
     st.subheader("Lifestyle Factors")
 
+    st.write("##### Physical Activity")
+    st.selectbox(
+        "How often do you engage in physical activity?",
+        options=["Every day", "Some days", "Not at all"],
+        index=None,
+        key=REQUIRED_FIELDS["Physical Activity"]
+    )
+
     st.write("##### Smoking History")
     st.pills(
         "Have you ever smoked 100 cigarettes in life?",
@@ -60,7 +68,8 @@ def create_lifestyle_factors_section():
     # Always render the follow-up question
     st.selectbox(
         "How often do you currently smoke?",
-        options=["", "Every day", "Some days", "Not at all"],
+        options=["Every day", "Some days", "Not at all"],
+        index=None,
         key=REQUIRED_FIELDS["Smoking Frequency"]
     )
 
@@ -68,7 +77,8 @@ def create_lifestyle_factors_section():
     st.write("##### Alcohol Consumption")
     st.selectbox(
         "How often do you currently drink alcohol?",
-        options=["", "Never", "Less than 1 day per month", "1-2 days per month", "3-4 days per month", "2-3 days per week", "4-5 days per week", "Nearly every day/Everyday"],
+        options=["Never", "Less than 1 day per month", "1-2 days per month", "3-4 days per month", "2-3 days per week", "4-5 days per week", "Nearly every day/Everyday"],
+        index=None,
         key=REQUIRED_FIELDS["Alcohol"]
     )
 
@@ -78,7 +88,7 @@ def create_lab_values_section():
     
     bp_col1, bp_col2 = st.columns(2)
     with bp_col1:
-        st.number_input("Systolic Blood Pressure", 
+        st.number_input("Systolic Blood Pressure (mmHg)", 
                        value=None,
                        min_value=0.0, 
                        step=1.0, 
@@ -86,7 +96,7 @@ def create_lab_values_section():
                        key="user_systolic")
     
     with bp_col2:
-        st.number_input("Diastolic Blood Pressure", 
+        st.number_input("Diastolic Blood Pressure (mmHg)", 
                        value=None,
                        min_value=0.0, 
                        step=1.0, 
@@ -98,4 +108,73 @@ def create_lab_values_section():
                    min_value=0.0, 
                    step=0.1, 
                    format="%.1f", 
-                   key="user_hba1c")
+                   key=OPTIONAL_FIELDS["HbA1c"])
+
+def create_medical_history_section():
+    """Create the Medical History section of the form."""
+    st.subheader("Medical History")
+
+    st.write("##### Cancer History")
+    st.pills(
+        "Have you ever been told you had any kind of cancer?",
+        options=TF_MAP.keys(),
+        format_func=lambda option: TF_MAP[option],
+        selection_mode="single",
+        key=REQUIRED_FIELDS["Cancer History"]
+    )
+
+    st.write("##### Angina History")
+    st.pills(
+        "Have you ever been told you had angina/angina pectoris?",
+        options=TF_MAP.keys(),
+        format_func=lambda option: TF_MAP[option],
+        selection_mode="single",
+        key=REQUIRED_FIELDS["Angina History"]
+    )
+
+    st.write("##### COPD History")
+    st.pills(
+        "Have you ever been told you had COPD, emphysema, or chronic bronchitis?",
+        options=TF_MAP.keys(),
+        format_func=lambda option: TF_MAP[option],
+        selection_mode="single",
+        key=REQUIRED_FIELDS["COPD History"]
+    )
+
+    st.write("##### Arthritis History")
+    st.pills(
+        "Have you ever been told you had arthritis?",
+        options=TF_MAP.keys(),
+        format_func=lambda option: TF_MAP[option],
+        selection_mode="single",
+        key=REQUIRED_FIELDS["Arthritis History"]
+    )
+
+    st.write("##### Metal Objects")
+    st.pills(
+        "Do you have any metal objects inside your body?",
+        options=TF_MAP.keys(),
+        format_func=lambda option: TF_MAP[option],
+        selection_mode="single",
+        key=REQUIRED_FIELDS["Metal Objects"]
+    )   
+
+    st.write("##### Diabetes History")
+    st.pills(
+        "Have you ever been told you had diabetes?",
+        options=TF_MAP.keys(),
+        format_func=lambda option: TF_MAP[option],
+        selection_mode="single",
+        key=OPTIONAL_FIELDS["Diabetes History"]
+    )
+
+    st.write("##### High Blood Pressure History")
+    st.pills(
+        "Have you ever been told you had high blood pressure?",
+        options=TF_MAP.keys(),
+        format_func=lambda option: TF_MAP[option],
+        selection_mode="single",
+        key=OPTIONAL_FIELDS["High Blood Pressure History"]
+    )
+
+

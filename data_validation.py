@@ -1,4 +1,5 @@
-from constants import REQUIRED_FIELDS, OPTIONAL_FIELDS, SMOKING_FREQUENCY_MAP
+from constants import ALCOHOL_CONSUMPTION_RANGE, PHYSICAL_ACTIVITY_MAP,REQUIRED_FIELDS, OPTIONAL_FIELDS, SMOKING_FREQUENCY_MAP
+
 
 def ok_float(val):
     """Return True if val can be interpreted as a positive float (greater than 0).
@@ -22,25 +23,19 @@ def compute_bmi(weight_kg, height_cm):
         return None
 
 
-def format_post_data(required_values, optional_values):
+def format_post_data(required_features, optional_features):
     """Format the collected form values into the expected POST data structure."""
     data = {}
     
     # Add required fields
-    for field_name in required_values.keys():
-        if field_name == "Height" or field_name == "Weight":
-            continue  # Skip these as they are used to compute BMI
-        value = required_values.get(field_name)
+    for field_name in required_features.keys():
+        value = required_features.get(field_name)
         data[field_name] = value
     
     # Add optional fields
-    for field_name in optional_values.keys():
-        value = optional_values.get(field_name)
+    for field_name in optional_features.keys():
+        value = optional_features.get(field_name)
         data[field_name] = value
-    
-    # Compute BMI and add it
-    bmi = compute_bmi(required_values.get("Weight"), required_values.get("Height"))
-    data["BMXBMI"] = bmi
     
     return data
 
@@ -52,13 +47,16 @@ def validate_form_input(st):
     for field_name in REQUIRED_FIELDS:
         value = st.session_state.get(REQUIRED_FIELDS[field_name])
 
-        if value is None or not ok_float(value):
+        if value is None:
             missing_fields.append(field_name)
 
     return missing_fields
 
+
 def collect_form_values(st, required_fields_map, optional_fields_map):
     
+    field_pending_processing = {"Weight", "Height", "Smoking Frequency", "Alcohol", "Physical Activity"}
+
     # Add all required fields
     for field_name in REQUIRED_FIELDS.keys():
         # safety check
@@ -66,7 +64,7 @@ def collect_form_values(st, required_fields_map, optional_fields_map):
         if key in st.session_state:
             value = st.session_state.get(key)
 
-        if field_name == "Weight" or field_name == "Height" or field_name == "SMQ020" or field_name == "SMQ040":
+        if field_name in field_pending_processing:
             # Handled separately below
             continue
         else:
@@ -77,26 +75,47 @@ def collect_form_values(st, required_fields_map, optional_fields_map):
         key = OPTIONAL_FIELDS[field_name]
         if key in st.session_state:
             value = st.session_state.get(key)
-        optional_fields_map.update(key, value)
+        
+        if field_name in field_pending_processing:
+            # Handled separately below
+            continue
+        else:
+            optional_fields_map.update(key, value)
+
+    _update_bmi(required_fields_map, st)
+    _update_smoking_fields(required_fields_map, st)
+    _update_alcohol_field(required_fields_map, st)
+    _update_physical_activity_field(required_fields_map, st)
 
 
-    required_fields_map.update("BMXBMI", compute_bmi(
-        st.session_state.get(REQUIRED_FIELDS["Weight"]),
-        st.session_state.get(REQUIRED_FIELDS["Height"])
-    ))
+# helper functions
+def _update_bmi(fields_map, st):
+    """Update the BMI value in the required fields map based on weight and height."""
+    weight = st.session_state.get(REQUIRED_FIELDS["Weight"])
+    height = st.session_state.get(REQUIRED_FIELDS["Height"])
+    bmi = compute_bmi(weight, height)
 
+    fields_map.update("BMXBMI", bmi)
+
+
+def _update_smoking_fields(fields_map, st):
     # Add smoking-related fields (SMQ020 and SMQ040)
     smoked_200 = st.session_state.get(REQUIRED_FIELDS["Smoking History"])
     smoking_frequency = st.session_state.get(REQUIRED_FIELDS["Smoking Frequency"], "")
-    
-    # SMQ020: Ever smoked 100 cigarettes
-    required_fields_map.update("SMQ020", smoked_200)  # 1=Yes, 2=No, None=not selected
     
     # SMQ040: Current smoking frequency
     # Only set if user answered "Yes" (1) to smoking 100 cigarettes
     if smoked_200 == 1:
         # User smoked 100 cigarettes - map their current frequency
-        required_fields_map.update("SMQ040", SMOKING_FREQUENCY_MAP.get(smoking_frequency))
+        fields_map.update("SMQ040", SMOKING_FREQUENCY_MAP.get(smoking_frequency))
     else:
         # Code 0 used to indicate 'never/currently not smoking' per earlier conventions
-        required_fields_map.update("SMQ040", 0)
+        fields_map.update("SMQ040", 0)
+
+def _update_alcohol_field(fields_map, st):
+    alcohol_freq = st.session_state.get(REQUIRED_FIELDS["Alcohol"], "")
+    fields_map.update("ALQ121", ALCOHOL_CONSUMPTION_RANGE.get(alcohol_freq))
+
+def _update_physical_activity_field(fields_map, st):
+    physical_activity = st.session_state.get(REQUIRED_FIELDS["Physical Activity"], "")
+    fields_map.update("PAD680", PHYSICAL_ACTIVITY_MAP.get(physical_activity))

@@ -16,7 +16,9 @@ REQUIRED_FIELDS = {
 }
 
 OPTIONAL_FIELDS = {
-    "HbA1c": "LBXGH"   # HbA1c
+    "HbA1c": "LBXGH",   # HbA1c
+    "Diabetes History": "DIQ010",  # Ever told you had diabetes
+    "High Blood Pressure History": "BPQ020",  # Ever told you had high blood pressure
 }
 
 DERIVED_INPUT_LABELS = {"Weight", "Height"}
@@ -32,13 +34,6 @@ OPTIONAL_FEATURE_SET = {
     if label not in DERIVED_INPUT_LABELS
 }
 
-# Smoking frequency mapping
-SMOKING_FREQUENCY_MAP = {
-    "Every day": 1,
-    "Some days": 2,
-    "Not at all": 3,
-}
-
 TF_MAP = {
     1: "Yes",
     2: "No"
@@ -49,7 +44,23 @@ GENDER_MAP = {
     2: "Female"
 }
 
+# Smoking frequency mapping
+SMOKING_FREQUENCY_MAP = {
+    "": None,
+    "Every day": 1,
+    "Some days": 2,
+    "Not at all": 3,
+}
+
+PHYSICAL_ACTIVITY_MAP = {
+    "": None,
+    "Every day": 1,
+    "Some days": 2,
+    "Not at all": 3,
+}
+
 ALCOHOL_CONSUMPTION_RANGE = {
+    "": None,
     "Never": 0,
     "Less than 1 day per month": 10,
     "1-2 days per month": 18,
