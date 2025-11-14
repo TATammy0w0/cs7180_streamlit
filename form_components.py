@@ -50,8 +50,8 @@ def create_lifestyle_factors_section():
 
     st.write("##### Physical Activity")
     st.selectbox(
-        "How often do you engage in physical activity?",
-        options=["Every day", "Some days", "Not at all"],
+        "On average, how much time do you spend on sedentary activities (e.g., sitting, reclining, watching TV) everyday?",
+        options=["Less than 1 hour", "1-2 hours", "2-4 hours", "4-6 hours", "6-8 hours", "8-10 hours", "More than 10 hours"],
         index=None,
         key=REQUIRED_FIELDS["Physical Activity"]
     )

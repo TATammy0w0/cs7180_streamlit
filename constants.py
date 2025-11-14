@@ -54,9 +54,13 @@ SMOKING_FREQUENCY_MAP = {
 
 PHYSICAL_ACTIVITY_MAP = {
     "": None,
-    "Every day": 1,
-    "Some days": 2,
-    "Not at all": 3,
+    "Less than 1 hour": 30,
+    "1-2 hours": 90,
+    "2-4 hours": 180,
+    "4-6 hours": 300,
+    "6-8 hours": 420,
+    "8-10 hours": 540,
+    "More than 10 hours": 720
 }
 
 ALCOHOL_CONSUMPTION_RANGE = {
