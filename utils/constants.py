@@ -16,7 +16,15 @@ REQUIRED_FIELDS = {
 }
 
 OPTIONAL_FIELDS = {
+    "Systolic Blood Pressure": "BPXSY1",  # Systolic Blood Pressure
+    "Diastolic Blood Pressure": "BPXDI1",  # Diastolic Blood
     "HbA1c": "LBXGH",   # HbA1c
+    "Fasting Glucose": "LBXGLU",  # Fasting Glucose
+    "Triglycerides": "LBDTRIG",  # Triglycerides
+    "FVC": "LUXCAPM",  # FVC
+    "LDL Cholesterol": "LBDLDL",  # LDL Cholesterol
+    "HDL Cholesterol": "LBDHDD",  # HDL Cholesterol
+    "Total Cholesterol": "LBXTC",  # Total Cholesterol
     "Diabetes History": "DIQ010",  # Ever told you had diabetes
     "High Blood Pressure History": "BPQ020",  # Ever told you had high blood pressure
 }

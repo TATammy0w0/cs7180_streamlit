@@ -93,22 +93,64 @@ def create_lab_values_section():
                        min_value=0.0, 
                        step=1.0, 
                        format="%.1f", 
-                       key="user_systolic")
-    
+                       key=OPTIONAL_FIELDS["Systolic Blood Pressure"])
+        
+        st.number_input("HbA1c (%)", 
+                   value=None,
+                   min_value=0.0, 
+                   step=0.1, 
+                   format="%.1f", 
+                   key=OPTIONAL_FIELDS["HbA1c"])
+        
+        st.number_input("Triglycerides (mg/dL)", 
+                   value=None,
+                   min_value=0.0, 
+                   step=0.1, 
+                   format="%.1f", 
+                   key=OPTIONAL_FIELDS["Triglycerides"])
+        
+        st.number_input("LDL Cholesterol (mmol/L)", 
+                   value=None,
+                   min_value=0.0, 
+                   step=0.1, 
+                   format="%.1f", 
+                   key=OPTIONAL_FIELDS["LDL Cholesterol"])
+
+        st.number_input("Total Cholesterol (mg/dL)", 
+                   value=None,
+                   min_value=0.0, 
+                   step=0.1, 
+                   format="%.1f", 
+                   key=OPTIONAL_FIELDS["Total Cholesterol"])
+
     with bp_col2:
         st.number_input("Diastolic Blood Pressure (mmHg)", 
                        value=None,
                        min_value=0.0, 
                        step=1.0, 
                        format="%.1f", 
-                       key="user_diastolic")
-
-    st.number_input("HbA1c (%)", 
+                       key=OPTIONAL_FIELDS["Diastolic Blood Pressure"])
+        
+        st.number_input("Fasting Glucose (mg/dL)", 
                    value=None,
                    min_value=0.0, 
                    step=0.1, 
                    format="%.1f", 
-                   key=OPTIONAL_FIELDS["HbA1c"])
+                   key=OPTIONAL_FIELDS["Fasting Glucose"])
+
+        st.number_input("FVC (mL)", 
+                   value=None,
+                   min_value=0.0, 
+                   step=0.1, 
+                   format="%.1f", 
+                   key=OPTIONAL_FIELDS["FVC"])
+        
+        st.number_input("HDL cholesterol (mmol/L)", 
+                   value=None,
+                   min_value=0.0, 
+                   step=0.1, 
+                   format="%.1f", 
+                   key=OPTIONAL_FIELDS["HDL Cholesterol"])
 
 def create_medical_history_section():
     """Create the Medical History section of the form."""
