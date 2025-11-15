@@ -1,5 +1,5 @@
 import streamlit as st
-from input_form import three_diseases_input_form
+from input.input_form import three_diseases_input_form
 
 st.title("🩺 Multi-Disease Risk Prediction")
 st.write(

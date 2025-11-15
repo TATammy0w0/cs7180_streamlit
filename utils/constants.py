@@ -16,8 +16,14 @@ REQUIRED_FIELDS = {
 }
 
 OPTIONAL_FIELDS = {
-    "Systolic Blood Pressure": "BPXSY1",  # Systolic Blood Pressure
-    "Diastolic Blood Pressure": "BPXDI1",  # Diastolic Blood
+    "Systolic Blood Pressure 1": "BPXSY1",  # Systolic Blood Pressure
+    "Systolic Blood Pressure 2": "BPXSY2",  # Systolic Blood Pressure
+    "Systolic Blood Pressure 3": "BPXSY3",  # Systolic Blood Pressure
+    "Systolic Blood Pressure 4": "BPXSY4",  # Systolic Blood Pressure
+    "Diastolic Blood Pressure 1": "BPXDI1",  # Diastolic Blood
+    "Diastolic Blood Pressure 2": "BPXDI2",  # Diastolic Blood
+    "Diastolic Blood Pressure 3": "BPXDI3",  # Diastolic Blood
+    "Diastolic Blood Pressure 4": "BPXDI4",  # Diastolic Blood
     "HbA1c": "LBXGH",   # HbA1c
     "Fasting Glucose": "LBXGLU",  # Fasting Glucose
     "Triglycerides": "LBDTRIG",  # Triglycerides
@@ -25,6 +31,7 @@ OPTIONAL_FIELDS = {
     "LDL Cholesterol": "LBDLDL",  # LDL Cholesterol
     "HDL Cholesterol": "LBDHDD",  # HDL Cholesterol
     "Total Cholesterol": "LBXTC",  # Total Cholesterol
+    "Uric Acid": "LBXSUA",  # Uric Acid
     "Diabetes History": "DIQ010",  # Ever told you had diabetes
     "High Blood Pressure History": "BPQ020",  # Ever told you had high blood pressure
 }

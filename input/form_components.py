@@ -1,5 +1,5 @@
 import streamlit as st
-from constants import GENDER_MAP, OPTIONAL_FIELDS, TF_MAP, REQUIRED_FIELDS, SMOKING_FREQUENCY_MAP
+from utils.constants import GENDER_MAP, OPTIONAL_FIELDS, TF_MAP, REQUIRED_FIELDS
 
 def create_basic_info_section():
     """Create the Basic Information section of the form."""
@@ -86,15 +86,88 @@ def create_lab_values_section():
     """Create the Laboratory Values section of the form."""
     st.subheader("Laboratory Values")
     
-    bp_col1, bp_col2 = st.columns(2)
-    with bp_col1:
-        st.number_input("Systolic Blood Pressure (mmHg)", 
+    # Systolic Blood Pressure Section
+    st.markdown("Systolic Blood Pressure Readings (mmHg)", unsafe_allow_html=False, help="Please provide four readings.")
+    sbp_col1, sbp_col2, sbp_col3, sbq_col4 = st.columns(4)
+    
+    with sbp_col1:
+        st.number_input("Systolic Blood Pressure 1",
                        value=None,
                        min_value=0.0, 
                        step=1.0, 
                        format="%.1f", 
-                       key=OPTIONAL_FIELDS["Systolic Blood Pressure"])
-        
+                       label_visibility="collapsed",
+                       key=OPTIONAL_FIELDS["Systolic Blood Pressure 1"])
+    
+    with sbp_col2:
+        st.number_input("Systolic Blood Pressure 2", 
+                       value=None,
+                       min_value=0.0, 
+                       step=1.0, 
+                       format="%.1f", 
+                       label_visibility="collapsed",
+                       key=OPTIONAL_FIELDS["Systolic Blood Pressure 2"])
+    
+    with sbp_col3:
+        st.number_input("Systolic Blood Pressure 3", 
+                       value=None,
+                       min_value=0.0, 
+                       step=1.0, 
+                       format="%.1f", 
+                       label_visibility="collapsed",
+                       key=OPTIONAL_FIELDS["Systolic Blood Pressure 3"])
+
+    with sbq_col4:
+        st.number_input("Systolic Blood Pressure 4", 
+                       value=None,
+                       min_value=0.0, 
+                       step=1.0, 
+                       format="%.1f", 
+                       label_visibility="collapsed",
+                       key=OPTIONAL_FIELDS["Systolic Blood Pressure 4"])
+
+    # Diastolic Blood Pressure Section
+    st.markdown("Diastolic Blood Pressure Readings (mmHg)", unsafe_allow_html=False, help="Please provide four readings.")
+    dbp_col1, dbp_col2, dbp_col3, dbp_col4 = st.columns(4)
+
+    with dbp_col1:
+        st.number_input("Diastolic Blood Pressure 1",
+                       value=None,
+                       min_value=0.0, 
+                       step=1.0, 
+                       format="%.1f", 
+                       label_visibility="collapsed",
+                       key=OPTIONAL_FIELDS["Diastolic Blood Pressure 1"])
+    
+    with dbp_col2:
+        st.number_input("Diastolic Blood Pressure 2", 
+                       value=None,
+                       min_value=0.0, 
+                       step=1.0, 
+                       format="%.1f", 
+                       label_visibility="collapsed",
+                       key=OPTIONAL_FIELDS["Diastolic Blood Pressure 2"])
+    
+    with dbp_col3:
+        st.number_input("Diastolic Blood Pressure 3",
+                        value=None,
+                        min_value=0.0, 
+                        step=1.0, 
+                        format="%.1f", 
+                        label_visibility="collapsed",
+                        key=OPTIONAL_FIELDS["Diastolic Blood Pressure 3"])
+
+    with dbp_col4:  
+        st.number_input("Diastolic Blood Pressure 4",
+                        value=None,
+                        min_value=0.0,    
+                        step=1.0, 
+                        format="%.1f", 
+                        label_visibility="collapsed",
+                        key=OPTIONAL_FIELDS["Diastolic Blood Pressure 4"])
+    
+    other_col1, other_col2 = st.columns(2)
+    with other_col1:
         st.number_input("HbA1c (%)", 
                    value=None,
                    min_value=0.0, 
@@ -123,14 +196,7 @@ def create_lab_values_section():
                    format="%.1f", 
                    key=OPTIONAL_FIELDS["Total Cholesterol"])
 
-    with bp_col2:
-        st.number_input("Diastolic Blood Pressure (mmHg)", 
-                       value=None,
-                       min_value=0.0, 
-                       step=1.0, 
-                       format="%.1f", 
-                       key=OPTIONAL_FIELDS["Diastolic Blood Pressure"])
-        
+    with other_col2:
         st.number_input("Fasting Glucose (mg/dL)", 
                    value=None,
                    min_value=0.0, 
@@ -151,6 +217,13 @@ def create_lab_values_section():
                    step=0.1, 
                    format="%.1f", 
                    key=OPTIONAL_FIELDS["HDL Cholesterol"])
+        
+        st.number_input("Uric Acid (mg/dL)", 
+                   value=None,
+                   min_value=0.0, 
+                   step=0.1, 
+                   format="%.1f", 
+                   key=OPTIONAL_FIELDS["Uric Acid"])
 
 def create_medical_history_section():
     """Create the Medical History section of the form."""
