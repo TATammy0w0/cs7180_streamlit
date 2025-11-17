@@ -1,15 +1,4 @@
-from utils.constants import ALCOHOL_CONSUMPTION_RANGE, PHYSICAL_ACTIVITY_MAP,REQUIRED_FIELDS, OPTIONAL_FIELDS, SMOKING_FREQUENCY_MAP
-
-
-def ok_float(val):
-    """Return True if val can be interpreted as a positive float (greater than 0).
-
-    Accepts ints/floats and numeric-like strings. Returns False for None or non-numeric.
-    """
-    try:
-        return float(val) > 0
-    except Exception:
-        return False
+from utils.constants import ALCOHOL_CONSUMPTION_RANGE, FAIMILY_INCOME_MAP, PHYSICAL_ACTIVITY_MAP, RACE_MAP,REQUIRED_FIELDS, OPTIONAL_FIELDS, SMOKING_FREQUENCY_MAP
 
 
 def compute_bmi(weight_kg, height_cm):
@@ -55,7 +44,7 @@ def validate_form_input(st):
 
 def collect_form_values(st, required_fields_map, optional_fields_map):
     
-    field_pending_processing = {"Weight", "Height", "Smoking Frequency", "Alcohol", "Physical Activity"}
+    field_pending_processing = {"Weight", "Height", "Race", "Annual Family Income", "Smoking Frequency", "Alcohol", "Physical Activity"}
 
     # Add all required fields
     for field_name in REQUIRED_FIELDS.keys():
@@ -83,6 +72,8 @@ def collect_form_values(st, required_fields_map, optional_fields_map):
             optional_fields_map.update(key, value)
 
     _update_bmi(required_fields_map, st)
+    _update_race_field(required_fields_map, st)
+    _update_family_income_field(optional_fields_map, st)
     _update_smoking_fields(required_fields_map, st)
     _update_alcohol_field(required_fields_map, st)
     _update_physical_activity_field(required_fields_map, st)
@@ -113,9 +104,20 @@ def _update_smoking_fields(fields_map, st):
         fields_map.update("SMQ040", 0)
 
 def _update_alcohol_field(fields_map, st):
-    alcohol_freq = st.session_state.get(REQUIRED_FIELDS["Alcohol"], "")
-    fields_map.update("ALQ121", ALCOHOL_CONSUMPTION_RANGE.get(alcohol_freq))
+    _update_field_with_mapping(True, fields_map, "Alcohol", ALCOHOL_CONSUMPTION_RANGE, st)
 
 def _update_physical_activity_field(fields_map, st):
-    physical_activity = st.session_state.get(REQUIRED_FIELDS["Physical Activity"], "")
-    fields_map.update("PAD680", PHYSICAL_ACTIVITY_MAP.get(physical_activity))
+    _update_field_with_mapping(True, fields_map, "Physical Activity", PHYSICAL_ACTIVITY_MAP, st)
+
+def _update_race_field(fields_map, st):
+    _update_field_with_mapping(True, fields_map, "Race", RACE_MAP, st)
+
+def _update_family_income_field(fields_map, st):
+    _update_field_with_mapping(False, fields_map, "Annual Family Income", FAIMILY_INCOME_MAP, st)
+
+def _update_field_with_mapping(is_required, fields_map, field_name, mapping_dict, st):
+    """Update a field in the fields map using a provided mapping dictionary."""
+    nhanes_key = REQUIRED_FIELDS[field_name] if is_required else OPTIONAL_FIELDS[field_name]
+    user_input = st.session_state.get(nhanes_key, "")
+    mapped_value = mapping_dict.get(user_input)
+    fields_map.update(nhanes_key, mapped_value)

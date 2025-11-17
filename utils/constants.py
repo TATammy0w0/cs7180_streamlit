@@ -4,6 +4,7 @@ REQUIRED_FIELDS = {
     "Weight": "Weight",             # Weight
     "Height": "Height",             # Height
     "Waist": "BMXWAIST",            # Waist circumference
+    "Race": "RIDRETH3",
     "Alcohol": "ALQ121",            # Alcohol consumption (days drank in past 12 months)
     "Smoking History": "SMQ020",    # Ever Smoked
     "Smoking Frequency": "SMQ040",  # Current Smoking Status
@@ -16,6 +17,7 @@ REQUIRED_FIELDS = {
 }
 
 OPTIONAL_FIELDS = {
+    "Annual Family Income" : "INDFMPIR",
     "Systolic Blood Pressure 1": "BPXSY1",  # Systolic Blood Pressure
     "Systolic Blood Pressure 2": "BPXSY2",  # Systolic Blood Pressure
     "Systolic Blood Pressure 3": "BPXSY3",  # Systolic Blood Pressure
@@ -58,6 +60,23 @@ TF_MAP = {
 GENDER_MAP = {
     1: "Male",
     2: "Female"
+}
+
+RACE_MAP = {
+    "Mexican American": 1,
+    "Other Hispanic": 2,
+    "Non-Hispanic White": 3,
+    "Non-Hispanic Black": 4,
+    "Non-Hispanic Asian": 6,     # Note: 5 is not used in NHANES coding
+    "Other Race/Multiracial": 7
+}
+
+FAIMILY_INCOME_MAP = {
+    "Less than $30k": 0.5,
+    "$30k to less than $45k": 1.5,
+    "$45k to less than $60k": 3.0,
+    "$60k to less than $120k": 4.0,
+    "$120k or more": 5.0
 }
 
 # Smoking frequency mapping

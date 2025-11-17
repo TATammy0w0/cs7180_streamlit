@@ -28,6 +28,11 @@ def create_basic_info_section():
                        step=0.1, 
                        format="%.1f", 
                        key=REQUIRED_FIELDS["Weight"])
+        
+        st.selectbox("Race", 
+                      options=["Mexican American", "Other Hispanic", "Non-Hispanic White", "Non-Hispanic Black", "Non-Hispanic Asian", "Other Race/Multiracial"],    
+                      index=None,
+                      key=REQUIRED_FIELDS["Race"])
 
     with col2:     
         st.number_input("Height (cm)", 
@@ -43,6 +48,11 @@ def create_basic_info_section():
                        step=0.1, 
                        format="%.1f", 
                        key=REQUIRED_FIELDS["Waist"])
+        
+        st.selectbox("Annual Family Income", 
+                      options=["Less than $30k", "$30k to less than $45k", "$45k to less than $60k", "$60k to less than $120k", "$120k or more"],    
+                      index=None,
+                      key=OPTIONAL_FIELDS["Annual Family Income"])
 
 def create_lifestyle_factors_section():
     """Create the Lifestyle Factors section of the form."""

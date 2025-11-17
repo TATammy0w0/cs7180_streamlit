@@ -5,8 +5,8 @@ from models.feature_map import FeatureMap
 from input.form_components import create_basic_info_section, create_lab_values_section, create_lifestyle_factors_section, create_medical_history_section
 from input.data_validation import format_post_data, validate_form_input, collect_form_values
 
-API_BASE_URL = "https://disease-warning-nvjg.onrender.com"
-PREDICT_ALL_URL = f"{API_BASE_URL}/all"
+API_BASE_URL = "https://disease-warning-1.onrender.com"
+PREDICT_ALL_URL = f"{API_BASE_URL}/prediction/all"
 
 required_features_map = FeatureMap(REQUIRED_FEATURE_SET)
 optional_features_map = FeatureMap(OPTIONAL_FEATURE_SET)
