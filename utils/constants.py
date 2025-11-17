@@ -26,11 +26,12 @@ OPTIONAL_FIELDS = {
     "Diastolic Blood Pressure 4": "BPXDI4",  # Diastolic Blood
     "HbA1c": "LBXGH",   # HbA1c
     "Fasting Glucose": "LBXGLU",  # Fasting Glucose
-    "Triglycerides": "LBDTRIG",  # Triglycerides
+    "Triglycerides": "LBXSTR",  # Triglycerides
     "FVC": "LUXCAPM",  # FVC
     "LDL Cholesterol": "LBDLDL",  # LDL Cholesterol
     "HDL Cholesterol": "LBDHDD",  # HDL Cholesterol
     "Total Cholesterol": "LBXTC",  # Total Cholesterol
+    "ALT": "LBXSATSI",  # Alanine aminotransferase
     "Uric Acid": "LBXSUA",  # Uric Acid
     "Diabetes History": "DIQ010",  # Ever told you had diabetes
     "High Blood Pressure History": "BPQ020",  # Ever told you had high blood pressure
