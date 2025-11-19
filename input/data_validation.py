@@ -30,14 +30,14 @@ def format_post_data(required_features, optional_features):
 
 
 def validate_form_input(st):
-    """Validate all required form inputs."""
-    missing_fields = []
+    """Validate all required form inputs. Returns dict mapping field keys to human-readable labels for missing fields."""
+    missing_fields = {}
     
-    for field_name in REQUIRED_FIELDS:
-        value = st.session_state.get(REQUIRED_FIELDS[field_name])
+    for field_name, field_key in REQUIRED_FIELDS.items():
+        value = st.session_state.get(field_key)
 
         if value is None:
-            missing_fields.append(field_name)
+            missing_fields[field_key] = field_name
 
     return missing_fields
 

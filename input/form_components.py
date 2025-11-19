@@ -5,49 +5,63 @@ def create_basic_info_section():
     """Create the Basic Information section of the form."""
     st.subheader("Basic Information")
     
+    validation_errors = st.session_state.get('validation_errors', {})
+    
     st.pills(
-            "Gender at Birth",
+            "\* Gender at Birth",
             options=GENDER_MAP.keys(),
             format_func=lambda option: GENDER_MAP[option],
             selection_mode="single",
             key=REQUIRED_FIELDS["Gender"]
         )
+    if REQUIRED_FIELDS["Gender"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Gender"]) is None:
+        st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Gender']]} is required")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.number_input("Age (years)", 
+        st.number_input("\* Age (years)", 
                        value=None,
                        min_value=1, 
                        step=1, 
                        key=REQUIRED_FIELDS["Age"])
+        if REQUIRED_FIELDS["Age"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Age"]) is None:
+            st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Age']]} is required")
 
-        st.number_input("Weight (kg)", 
+        st.number_input("\* Weight (kg)", 
                        value=None,
                        min_value=1.0, 
                        step=0.1, 
                        format="%.1f", 
                        key=REQUIRED_FIELDS["Weight"])
+        if REQUIRED_FIELDS["Weight"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Weight"]) is None:
+            st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Weight']]} is required")
         
-        st.selectbox("Race", 
+        st.selectbox("\* Race", 
                       options=["Mexican American", "Other Hispanic", "Non-Hispanic White", "Non-Hispanic Black", "Non-Hispanic Asian", "Other Race/Multiracial"],    
                       index=None,
                       key=REQUIRED_FIELDS["Race"])
+        if REQUIRED_FIELDS["Race"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Race"]) is None:
+            st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Race']]} is required")
 
     with col2:     
-        st.number_input("Height (cm)", 
+        st.number_input("\* Height (cm)", 
                        value=None,
                        min_value=1.0, 
                        step=0.1, 
                        format="%.1f", 
                        key=REQUIRED_FIELDS["Height"])
-        
-        st.number_input("Waist Circumference (cm)", 
+        if REQUIRED_FIELDS["Height"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Height"]) is None:
+            st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Height']]} is required")
+
+        st.number_input("\* Waist Circumference (cm)", 
                        value=None,
                        min_value=1.0, 
                        step=0.1, 
                        format="%.1f", 
                        key=REQUIRED_FIELDS["Waist"])
+        if REQUIRED_FIELDS["Waist"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Waist"]) is None:
+            st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Waist']]} is required")
         
         st.selectbox("Annual Family Income", 
                       options=["Less than $30k", "$30k to less than $45k", "$45k to less than $60k", "$60k to less than $120k", "$120k or more"],    
@@ -57,16 +71,20 @@ def create_basic_info_section():
 def create_lifestyle_factors_section():
     """Create the Lifestyle Factors section of the form."""
     st.subheader("Lifestyle Factors")
+    
+    validation_errors = st.session_state.get('validation_errors', {})
 
-    st.write("##### Physical Activity")
+    st.write("##### * Physical Activity")
     st.selectbox(
         "On average, how much time do you spend on sedentary activities (e.g., sitting, reclining, watching TV) everyday?",
         options=["Less than 1 hour", "1-2 hours", "2-4 hours", "4-6 hours", "6-8 hours", "8-10 hours", "More than 10 hours"],
         index=None,
         key=REQUIRED_FIELDS["Physical Activity"]
     )
+    if REQUIRED_FIELDS["Physical Activity"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Physical Activity"]) is None:
+        st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Physical Activity']]} is required")
 
-    st.write("##### Smoking History")
+    st.write("##### * Smoking History")
     st.pills(
         "Have you ever smoked 100 cigarettes in life?",
         options=TF_MAP.keys(),
@@ -74,6 +92,8 @@ def create_lifestyle_factors_section():
         selection_mode="single",
         key=REQUIRED_FIELDS["Smoking History"]
     )
+    if REQUIRED_FIELDS["Smoking History"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Smoking History"]) is None:
+        st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Smoking History']]} is required")
     
     # Always render the follow-up question
     st.selectbox(
@@ -82,15 +102,19 @@ def create_lifestyle_factors_section():
         index=None,
         key=REQUIRED_FIELDS["Smoking Frequency"]
     )
+    if REQUIRED_FIELDS["Smoking Frequency"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Smoking Frequency"]) is None:
+        st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Smoking Frequency']]} is required")
 
     # Alcohol consumption section
-    st.write("##### Alcohol Consumption")
+    st.write("##### * Alcohol Consumption")
     st.selectbox(
         "How often do you currently drink alcohol?",
         options=["Never", "Less than 1 day per month", "1-2 days per month", "3-4 days per month", "2-3 days per week", "4-5 days per week", "Nearly every day/Everyday"],
         index=None,
         key=REQUIRED_FIELDS["Alcohol"]
     )
+    if REQUIRED_FIELDS["Alcohol"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Alcohol"]) is None:
+        st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Alcohol']]} is required")
 
 def create_lab_values_section():
     """Create the Laboratory Values section of the form."""
@@ -106,6 +130,7 @@ def create_lab_values_section():
                    max_value=100.0,
                    step=0.1, 
                    format="%.1f", 
+                   help="Normal: <5.7%",
                    key=OPTIONAL_FIELDS["HbA1c"])
         
         st.number_input("Triglycerides (mg/dL)", 
@@ -113,6 +138,7 @@ def create_lab_values_section():
                    min_value=0.0, 
                    step=0.1, 
                    format="%.1f", 
+                   help="Normal: <150 mg/dL",
                    key=OPTIONAL_FIELDS["Triglycerides"])
         
         st.number_input("LDL Cholesterol (mg/dL)", 
@@ -120,6 +146,7 @@ def create_lab_values_section():
                    min_value=0.0, 
                    step=0.1, 
                    format="%.1f", 
+                   help="Optimal: <100 mg/dL",
                    key=OPTIONAL_FIELDS["LDL Cholesterol"])
 
         st.number_input("Total Cholesterol (mg/dL)", 
@@ -127,6 +154,7 @@ def create_lab_values_section():
                    min_value=0.0, 
                    step=0.1, 
                    format="%.1f", 
+                   help="Desirable: <200 mg/dL",
                    key=OPTIONAL_FIELDS["Total Cholesterol"])
         
         st.number_input("Alanine aminotransferase (ALT) (U/L)",
@@ -134,6 +162,7 @@ def create_lab_values_section():
                    min_value=0.0, 
                    step=0.1, 
                    format="%.1f", 
+                   help="Normal: 7-56 U/L",
                    key=OPTIONAL_FIELDS["ALT"])
 
     with other_col2:
@@ -142,6 +171,7 @@ def create_lab_values_section():
                    min_value=0.0, 
                    step=0.1, 
                    format="%.1f", 
+                   help="Normal: 70-99 mg/dL",
                    key=OPTIONAL_FIELDS["Fasting Glucose"])
 
         st.number_input("FVC (mL)", 
@@ -149,6 +179,7 @@ def create_lab_values_section():
                    min_value=0.0, 
                    step=0.1, 
                    format="%.1f", 
+                   help="Typical: 3,500-4,500 mL",
                    key=OPTIONAL_FIELDS["FVC"])
 
         st.number_input("HDL Cholesterol (mg/dL)", 
@@ -156,6 +187,7 @@ def create_lab_values_section():
                    min_value=0.0, 
                    step=0.1, 
                    format="%.1f", 
+                   help="Normal: 40-59 mg/dL",
                    key=OPTIONAL_FIELDS["HDL Cholesterol"])
         
         st.number_input("Uric Acid (mg/dL)", 
@@ -163,13 +195,16 @@ def create_lab_values_section():
                    min_value=0.0, 
                    step=0.1, 
                    format="%.1f", 
+                   help="Normal: 3.5-7.2 mg/dL",
                    key=OPTIONAL_FIELDS["Uric Acid"])
 
 def create_medical_history_section():
     """Create the Medical History section of the form."""
     st.subheader("Medical History")
+    
+    validation_errors = st.session_state.get('validation_errors', {})
 
-    st.write("##### Cancer History")
+    st.write("##### * Cancer History")
     st.pills(
         "Have you ever been told you had any kind of cancer?",
         options=TF_MAP.keys(),
@@ -177,8 +212,10 @@ def create_medical_history_section():
         selection_mode="single",
         key=REQUIRED_FIELDS["Cancer History"]
     )
+    if REQUIRED_FIELDS["Cancer History"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Cancer History"]) is None:
+        st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Cancer History']]} is required")
 
-    st.write("##### Angina History")
+    st.write("##### * Angina History")
     st.pills(
         "Have you ever been told you had angina/angina pectoris?",
         options=TF_MAP.keys(),
@@ -186,8 +223,10 @@ def create_medical_history_section():
         selection_mode="single",
         key=REQUIRED_FIELDS["Angina History"]
     )
+    if REQUIRED_FIELDS["Angina History"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Angina History"]) is None:
+        st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Angina History']]} is required")
 
-    st.write("##### COPD History")
+    st.write("##### * COPD History")
     st.pills(
         "Have you ever been told you had COPD, emphysema, or chronic bronchitis?",
         options=TF_MAP.keys(),
@@ -195,8 +234,10 @@ def create_medical_history_section():
         selection_mode="single",
         key=REQUIRED_FIELDS["COPD History"]
     )
+    if REQUIRED_FIELDS["COPD History"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["COPD History"]) is None:
+        st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['COPD History']]} is required")
 
-    st.write("##### Arthritis History")
+    st.write("##### * Arthritis History")
     st.pills(
         "Have you ever been told you had arthritis?",
         options=TF_MAP.keys(),
@@ -204,15 +245,19 @@ def create_medical_history_section():
         selection_mode="single",
         key=REQUIRED_FIELDS["Arthritis History"]
     )
+    if REQUIRED_FIELDS["Arthritis History"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Arthritis History"]) is None:
+        st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Arthritis History']]} is required")
 
-    st.write("##### Metal Objects")
+    st.write("##### * Metal Objects")
     st.pills(
         "Do you have any metal objects inside your body?",
         options=TF_MAP.keys(),
         format_func=lambda option: TF_MAP[option],
         selection_mode="single",
         key=REQUIRED_FIELDS["Metal Objects"]
-    )   
+    )
+    if REQUIRED_FIELDS["Metal Objects"] in validation_errors and st.session_state.get(REQUIRED_FIELDS["Metal Objects"]) is None:
+        st.error(f"⚠️ {validation_errors[REQUIRED_FIELDS['Metal Objects']]} is required")
 
     st.write("##### Diabetes History")
     st.pills(
