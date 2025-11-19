@@ -77,7 +77,7 @@ TEST_DATA = {
 }
 
 # API URL
-API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
+API_BASE_URL = os.getenv("API_BASE_URL", "https://disease-warning-1.onrender.com")
 PREDICT_ALL_URL = f"{API_BASE_URL}/prediction/all"
 
 st.markdown("---")
