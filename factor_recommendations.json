@@ -1,0 +1,19 @@
+{
+  "RIDAGEYR": "Regular health check-ups are recommended as you age. Consider more frequent monitoring.",
+  "BMXBMI": "Maintain a healthy weight through balanced diet and regular exercise. Aim for BMI between 18.5-24.9.",
+  "BMXWAIST": "Reduce waist circumference through diet and exercise. Target waist size: men <40 inches, women <35 inches.",
+  "RIAGENDR": "Gender-specific health screenings may be recommended. Consult with your healthcare provider.",
+  "BPXSY1": "Monitor and manage blood pressure. Aim for systolic pressure <120 mmHg through lifestyle changes or medication.",
+  "BPXDI1": "Monitor and manage blood pressure. Aim for diastolic pressure <80 mmHg through lifestyle changes or medication.",
+  "LBXGH": "Manage blood sugar levels through diet, exercise, and medication if needed. Target HbA1c <5.7% for normal, <6.5% for prediabetes.",
+  "LBXTC": "Maintain healthy cholesterol levels through diet and exercise. Target total cholesterol <200 mg/dL.",
+  "PAQ605": "Increase physical activity. Aim for at least 150 minutes of moderate-intensity exercise per week.",
+  "PAQ620": "Increase physical activity. Aim for at least 150 minutes of moderate-intensity exercise per week.",
+  "ALQ121": "Limit alcohol consumption. Recommended: men ≤2 drinks/day, women ≤1 drink/day.",
+  "SMQ020": "If you smoke, consider quitting. Smoking significantly increases health risks.",
+  "SMQ040": "Reduce or quit smoking. Seek support from healthcare providers or smoking cessation programs.",
+  "MCQ300A": "Family history increases risk. Regular screening and monitoring are recommended.",
+  "BMXHT": "Height is a non-modifiable factor. Focus on other modifiable risk factors.",
+  "BMXWT": "Maintain a healthy weight through balanced diet and regular exercise."
+}
+
