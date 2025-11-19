@@ -7,7 +7,7 @@ from utils.constants import REQUIRED_FEATURE_SET, OPTIONAL_FEATURE_SET
 from models.feature_map import FeatureMap
 from input.form_components import create_basic_info_section, create_lab_values_section, create_lifestyle_factors_section, create_medical_history_section
 from input.data_validation import format_post_data, validate_form_input, collect_form_values
-from utils.display import convert_api_response_to_display_format
+from utils.display import convert_api_response_to_display_format, display_results
 
 # 支持环境变量配置，本地开发时设置为 http://localhost:8000
 API_BASE_URL = os.getenv("API_BASE_URL", "https://disease-warning-1.onrender.com")
@@ -17,6 +17,19 @@ required_features_map = FeatureMap(REQUIRED_FEATURE_SET)
 optional_features_map = FeatureMap(OPTIONAL_FEATURE_SET)
 
 def input_form():
+    # Simple approach: 
+    # - Track if results should be shown on main page
+    # - Only clear when user switches pages (not when clicking View Details)
+    # Note: Page switch detection is now handled in streamlit_app.py before calling input_form()
+    
+    # Initialize flag to track which page generated the results
+    if 'results_page' not in st.session_state:
+        st.session_state.results_page = None
+    
+    # Clear show_results_on_main_page flag if results were generated on a different page
+    if st.session_state.get('results_page') != 'main':
+        st.session_state.show_results_on_main_page = False
+    
     with st.form("risk_form"):
         _draw_forms()
         
@@ -36,6 +49,8 @@ def input_form():
             else:
                 # Clear any previous validation errors
                 st.session_state['validation_errors'] = {}
+                # Set flag to indicate form was submitted (will be used after successful API call)
+                st.session_state.form_just_submitted = True
                 collect_form_values(st, required_features_map, optional_features_map)
                 input = format_post_data(required_features_map, optional_features_map)
                 data = {"input_data": input}
@@ -65,10 +80,12 @@ def input_form():
                             st.session_state.comparison_data = display_data["comparison_data"]
                             st.session_state.comparison_data_by_disease = display_data["comparison_data_by_disease"]
                             st.session_state.selected_disease = None
+                            st.session_state.show_results_on_main_page = True  # Flag to show results on main page
+                            st.session_state.results_page = 'main'  # Mark that results were generated on main page
                             
-                            # Redirect to results page
-                            st.success("✅ Prediction completed! Redirecting to results...")
-                            st.switch_page("pages/Prediction_Results.py")
+                            # Show success message
+                            st.success("✅ Prediction completed!")
+                            st.rerun()
                         else:
                             st.error("API request failed")
                             try:
@@ -83,6 +100,16 @@ def input_form():
                         st.error("Request timed out. Please try again.")
                     except Exception as e:
                         st.error(f"An error occurred: {str(e)}")
+    
+    # Display results below the form if:
+    # 1. show_results_on_main_page flag is set (prediction was done on main page)
+    # 2. results_page is 'main' (results were generated on main page, not Test_API)
+    # This ensures results only show after clicking Submit on main page,
+    # and persist when clicking "View Details" (which triggers rerun)
+    if (st.session_state.get('show_results_on_main_page', False) and 
+        st.session_state.get('results_page') == 'main'):
+        st.markdown("---")
+        display_results()
 
 def _convert_api_to_frontend_format(api_response):
     """

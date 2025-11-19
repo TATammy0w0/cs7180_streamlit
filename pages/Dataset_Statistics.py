@@ -11,6 +11,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 st.set_page_config(page_title="Dataset Statistics", layout="wide")
 
+# Update last visited page to track page navigation
+if 'last_visited_page' not in st.session_state:
+    st.session_state.last_visited_page = 'dataset_statistics'
+else:
+    st.session_state.last_visited_page = 'dataset_statistics'
+
 st.title("NHANES Dataset Statistics")
 st.markdown("---")
 

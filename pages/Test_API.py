@@ -6,9 +6,15 @@ import sys
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from input.input_form import _convert_api_to_frontend_format
-from utils.display import convert_api_response_to_display_format
+from utils.display import convert_api_response_to_display_format, display_results
 
 st.set_page_config(page_title="API Test", layout="wide")
+
+# Update last visited page to track page navigation
+if 'last_visited_page' not in st.session_state:
+    st.session_state.last_visited_page = 'test_api'
+else:
+    st.session_state.last_visited_page = 'test_api'
 
 st.title("🧪 API Test Page")
 st.markdown("This page tests the backend API with fixed test data.")
@@ -162,6 +168,9 @@ if st.button("🚀 Send POST Request & View Results", type="primary", use_contai
                     st.session_state.comparison_data = display_data["comparison_data"]
                     st.session_state.comparison_data_by_disease = display_data["comparison_data_by_disease"]
                     st.session_state.selected_disease = None
+                    # Mark that results were generated on Test_API page, not main page
+                    st.session_state.results_page = 'test_api'
+                    st.session_state.show_results_on_main_page = False
                 
                 # Show conversion summary
                 st.info(f"""
@@ -177,9 +186,9 @@ if st.button("🚀 Send POST Request & View Results", type="primary", use_contai
                     factors_count = len(display_data["risk_factors_by_disease"].get(disease, []))
                     st.write(f"- **{disease}**: {data['score']}% ({data['status']}) - {factors_count} risk factors")
                 
-                # Redirect to results page
-                st.success("✅ Data processed! Redirecting to results page...")
-                st.switch_page("pages/Prediction_Results.py")
+                # Show success message
+                st.success("✅ Data processed!")
+                st.rerun()
                 
             else:
                 st.error(f"❌ API request failed with status code: {response.status_code}")
@@ -203,12 +212,17 @@ if st.button("🚀 Send POST Request & View Results", type="primary", use_contai
             with st.expander("🔍 View Error Details"):
                 st.code(traceback.format_exc())
 
+# Display results if prediction is done
+if st.session_state.get('prediction_done', False):
+    st.markdown("---")
+    display_results()
+
 st.markdown("---")
 st.markdown("### 📝 Notes")
 st.info("""
 - This page uses fixed test data to test the backend API
 - Click the button above to send a POST request and view results
-- The results will be displayed on the Prediction Results page
+- Results will be displayed below after successful prediction
 - Make sure the backend service is running before testing
 """)
 
