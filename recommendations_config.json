@@ -1,0 +1,105 @@
+{
+  "disease_recommendations": {
+    "Diabetes": {
+      "LOW": [
+        "Maintain current healthy lifestyle",
+        "Continue regular exercise routine",
+        "Monitor blood sugar levels annually"
+      ],
+      "MODERATE": [
+        "Lose 5-10% of body weight if overweight",
+        "Exercise 30 minutes daily, 5 days/week",
+        "Reduce refined sugar and processed food intake",
+        "Monitor blood sugar levels every 6 months",
+        "Consider consulting a nutritionist"
+      ],
+      "HIGH": [
+        "Lose 10-15% of body weight",
+        "Exercise 45 minutes daily, most days of the week",
+        "Follow a low-carb, high-fiber diet",
+        "Monitor blood sugar levels every 3 months",
+        "Consult with a doctor and endocrinologist",
+        "Consider medication if lifestyle changes are insufficient"
+      ]
+    },
+    "Hypertension": {
+      "LOW": [
+        "Maintain current healthy lifestyle",
+        "Monitor blood pressure regularly",
+        "Continue regular physical activity"
+      ],
+      "MODERATE": [
+        "Reduce sodium intake to <2,300mg/day",
+        "Exercise 30 minutes daily, 5 days/week",
+        "Limit alcohol consumption",
+        "Eat a DASH diet (fruits, vegetables, whole grains)",
+        "Monitor blood pressure monthly"
+      ],
+      "HIGH": [
+        "Reduce sodium intake to <1,500mg/day",
+        "Exercise 30 minutes daily, 5 days/week",
+        "Lose weight if overweight",
+        "Reduce alcohol consumption to moderate levels",
+        "Follow DASH diet strictly",
+        "Monitor blood pressure weekly",
+        "Consult your doctor about blood pressure medication",
+        "Consider stress management techniques"
+      ]
+    },
+    "CVD": {
+      "LOW": [
+        "Maintain heart-healthy lifestyle",
+        "Continue regular exercise",
+        "Monitor cholesterol and blood pressure annually"
+      ],
+      "MODERATE": [
+        "Exercise 30 minutes daily, 5 days/week",
+        "Eat a heart-healthy diet (low saturated fat, high fiber)",
+        "Quit smoking if applicable",
+        "Manage stress levels",
+        "Monitor cholesterol and blood pressure every 6 months"
+      ],
+      "HIGH": [
+        "Exercise 30-45 minutes daily, most days",
+        "Follow a strict heart-healthy diet",
+        "Quit smoking immediately if applicable",
+        "Manage blood pressure and cholesterol aggressively",
+        "Lose weight if overweight",
+        "Consult with a cardiologist",
+        "Consider medication for cholesterol/blood pressure",
+        "Learn CPR and have an emergency plan"
+      ]
+    },
+    "Kidney Disease": {
+      "LOW": [
+        "Maintain good hydration",
+        "Monitor blood pressure regularly",
+        "Avoid excessive use of NSAIDs"
+      ],
+      "MODERATE": [
+        "Control blood pressure and diabetes if present",
+        "Reduce protein intake if recommended by doctor",
+        "Monitor kidney function annually",
+        "Stay well hydrated",
+        "Avoid excessive salt intake"
+      ],
+      "HIGH": [
+        "Strictly control blood pressure and diabetes",
+        "Follow a kidney-friendly diet",
+        "Monitor kidney function every 3-6 months",
+        "Consult with a nephrologist",
+        "Limit protein, phosphorus, and potassium as advised",
+        "Avoid NSAIDs completely",
+        "Consider medication to protect kidney function"
+      ]
+    }
+  },
+  "general_recommendations": {
+    "BMI_high": "Lose 10-15 pounds (reduce BMI to <30)",
+    "physical_activity_low": "Exercise 30 minutes daily, 5 days/week",
+    "sodium_high": "Reduce sodium intake to <2,300mg/day",
+    "family_history": "Regular screening and monitoring recommended due to family history",
+    "age_advanced": "More frequent health check-ups recommended due to age"
+  }
+}
+
