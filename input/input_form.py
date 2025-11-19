@@ -39,8 +39,7 @@ def input_form():
                 collect_form_values(st, required_features_map, optional_features_map)
                 input = format_post_data(required_features_map, optional_features_map)
                 data = {"input_data": input}
-                st.error(f"Please fill in all required fields: {', '.join(missing_fields)}")
-            else:
+            
                 with st.spinner("Processing your health data..."):
                     collect_form_values(st, required_features_map, optional_features_map)
                     input = format_post_data(required_features_map, optional_features_map)
