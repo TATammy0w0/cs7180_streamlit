@@ -23,6 +23,6 @@ st.write(
     "Chronic diseases such as diabetes, high blood pressure, heart disease, and kidney disease remain the leading causes of death in the United States. More than 100 million Americans are currently living with these conditions, and they cost the healthcare system billions of dollars every year."
 )
 st.write("With our disease prediction app, we aim to change that. By allowing users to input basic biological data, lifestyle information, medical history, and common lab results from routine health checkups, our app can help estimate an individual’s risk of developing diabetes, hypertension, cardiovascular disease (CVD), or chronic kidney disease (CKD).")
-st.write("We train our models using the National Health and Nutrition Examination Survey (NHANES) dataset. For more information about the data, head over to [link](https://cs7180-project.streamlit.app/Dataset_Statistics).")
+st.write("We train our models using the National Health and Nutrition Examination Survey (NHANES) dataset. Data source can be found here: [link](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2021-2023).")
 
 input_form()
