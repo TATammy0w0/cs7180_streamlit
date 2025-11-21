@@ -151,10 +151,10 @@ def _convert_api_to_frontend_format(api_response):
     
     # Disease name mapping
     disease_name_map = {
-        "ckd": "CKD",
+        "ckd": "Chronic Kidney Disease (CKD)",
         "diabetes": "Diabetes",
         "hypertension": "Hypertension",
-        "cvd": "CVD"
+        "cvd": "Cardiovascular Disease (CVD)"
     }
     
     # Risk level mapping
@@ -278,7 +278,8 @@ def _format_feature_name(feature_code):
         "DIQ010": "Diabetes History",
         "BPQ020": "Hypertension History",
         "MCQ160B": "Heart Disease History",
-        "MCQ220": "Kidney Disease History"
+        "MCQ220": "Kidney Disease History",
+        "MCQ160A": "Arthritis History"
     }
     return feature_name_map.get(feature_code, feature_code)
 
