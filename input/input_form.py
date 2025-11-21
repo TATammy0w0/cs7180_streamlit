@@ -56,9 +56,9 @@ def input_form():
                 data = {"input_data": input}
             
                 with st.spinner("Processing your health data..."):
-                    collect_form_values(st, required_features_map, optional_features_map)
-                    input = format_post_data(required_features_map, optional_features_map)
-                    data = {"input_data": input}
+                    # collect_form_values(st, required_features_map, optional_features_map)
+                    # input = format_post_data(required_features_map, optional_features_map)
+                    # data = {"input_data": input}
 
                     try:
                         response = requests.post(PREDICT_ALL_URL, json=data, timeout=30)
