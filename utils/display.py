@@ -198,12 +198,14 @@ def _display_risk_scores(risk_scores, risk_factors_by_disease):
                              text-align: center; height: 300px; width: 100%; 
                              display: flex; flex-direction: column; justify-content: space-between; 
                              box-sizing: border-box; transition: all 0.3s ease;'>
-                    <div style='flex: 1; display: flex; flex-direction: column; justify-content: center;'>
-                        <div style='font-size: 18px; font-weight: 700; color: #1f2937; margin-bottom: 20px;'>{disease}</div>
-                        <div style='font-size: 72px; font-weight: 900; color: {bg_color}; margin: 16px 0; 
-                                     line-height: 72px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-                                     letter-spacing: -3px;'>{_format_percentage(score)}</div>
-                        <div style='margin: 20px 0; height: 8px; width: 100%; background-color: rgba(0,0,0,0.1); 
+                    <div style='flex: 1; display: grid; grid-template-rows: 32px 140px auto; row-gap: 12px;'>
+                        <div style='font-size: 18px; font-weight: 700; color: #1f2937; margin: 0; height: 40px; 
+                                    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.2;'>{disease}</div>
+                        <div style='display: flex; align-items: center; justify-content: center; height: 100%; 
+                                    font-size: 72px; font-weight: 900; color: {bg_color}; margin: 0; 
+                                    line-height: 72px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+                                    letter-spacing: -3px;'>{_format_percentage(score)}</div>
+                        <div style='margin: 0; height: 8px; width: 100%; background-color: rgba(0,0,0,0.1); 
                                      border-radius: 4px; overflow: hidden;'>
                             <div style='width: {score}%; height: 100%; background: {bg_color}; border-radius: 4px; transition: width 0.3s ease;'></div>
                         </div>
